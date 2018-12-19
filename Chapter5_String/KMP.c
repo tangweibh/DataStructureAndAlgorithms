@@ -4,6 +4,20 @@
 #define MAXSIZE 100
 #define ARRAY_SIZE(array) sizeof(array)/sizeof(array[0])
 
+void getNextArrayFast(char T[], int length, int *next) {
+  next[0] = -1;
+  int front_idx=-1, rear_idx=0;
+  while (rear_idx < length - 1) {
+    if (front_idx == -1 || T[front_idx] == T[rear_idx]) {
+      front_idx ++;
+      rear_idx ++;
+      next[rear_idx] = front_idx;
+    } else {
+      front_idx = next[front_idx];
+    }
+  }
+}
+
 void getNextArray(char T[], int length, int *next) {
   next[0] = -1;
   if (length > 1) next[1] = 0;
@@ -47,7 +61,7 @@ int main () {
 
   // get next array
   int *next = (int*)malloc(sizeof(int)*length_T);
-  getNextArray(T, length_T, next);
+  getNextArrayFast(T, length_T, next);
   int i;
   for (i = 0; i < length_T; i++) {
     printf("%d ", next[i]);
